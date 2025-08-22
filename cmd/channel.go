@@ -2,16 +2,13 @@ package cmd
 
 import (
 	"bufio"
-	"crypto/rand"
 	"fmt"
-	"math/big"
-	"os"
-	"time"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"os"
 
 	"github.com/bnb-chain/tss/common"
+	"github.com/google/uuid"
 )
 
 func init() {
@@ -23,13 +20,7 @@ var channelCmd = &cobra.Command{
 	Short:            "generate a channel id for bootstrapping",
 	TraverseChildren: false, // TODO: figure out how to disable parent's options
 	Run: func(cmd *cobra.Command, args []string) {
-		channelId, err := rand.Int(rand.Reader, big.NewInt(999))
-		if err != nil {
-			common.Panic(err)
-		}
-		expire := askChannelExpire()
-		expireTime := time.Now().Add(time.Duration(expire) * time.Minute).Unix()
-		fmt.Printf("channel id: %s\n", fmt.Sprintf("%.3d%s", channelId.Int64(), common.ConvertTimestampToHex(expireTime)))
+		fmt.Printf("channel id: %s\n", fmt.Sprintf("%s", uuid.New().String()))
 	},
 }
 
