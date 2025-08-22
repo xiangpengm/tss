@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"crypto/elliptic"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 
@@ -38,6 +40,8 @@ var describeCmd = &cobra.Command{
 			if err != nil {
 				common.Panic(err)
 			}
+			compressed := elliptic.MarshalCompressed(pubKey.Curve, pubKey.X, pubKey.Y)
+			fmt.Printf("pubkey of this vault: %s\n", hex.EncodeToString(compressed))
 			fmt.Printf("address of this vault: %s\n", addr)
 		}
 		cfg, err := json.MarshalIndent(common.TssCfg, "", "\t")

@@ -34,7 +34,10 @@ var signCmd = &cobra.Command{
 	},
 }
 
-// TODO: use MessageBridge
 func setMessage() {
-	common.TssCfg.Message = "0"
+	message := viper.GetString("message")
+	if message == "" {
+		message = "0" // Default value if not provided
+	}
+	common.TssCfg.Message = message
 }
